@@ -146,9 +146,7 @@ The total rewards that are sent for one block should never be higher than the re
 
 # Tests
 
-*Provide every step required to build the project from a fresh git clone, as well as steps to run the tests with a gas report.* 
-
-*Note: Many wardens run Slither as a first pass for testing.  Please document any known errors with no workaround.* 
+```npm install && forge test``````
 
 ## Miscellaneous
 
