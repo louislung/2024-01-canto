@@ -78,20 +78,15 @@ The 4naly3er report can be found [here](https://github.com/code-423n4/2024-01-ca
 
 _Note for C4 wardens: Anything included in this `Automated Findings / Publicly Known Issues` section is considered a publicly known issue and is ineligible for awards._
 
-[ ⭐️ SPONSORS: Are there any known issues or risks deemed acceptable that shouldn't lead to a valid finding? If so, list them here. ]
-
+Risks deemed acceptable:
+- Everything related to governance / centralization abuse: We assume that governance is non-malicious. 
 
 # Overview
 
-[ ⭐️ SPONSORS: add info here ]
-
 ## Links
 
-- **Previous audits:** 
-- **Documentation:**
-- **Website:**
-- **Twitter:** 
-- **Discord:** 
+- **Previous audits:** https://code4rena.com/audits/2023-08-verwa
+- **Documentation:** https://code4rena.com/audits/2023-08-verwa and below
 
 
 # Scope
@@ -107,32 +102,27 @@ _Note for C4 wardens: Anything included in this `Automated Findings / Publicly K
 
 | Contract | SLOC | Purpose | Libraries used |  
 | ----------- | ----------- | ----------- | ----------- |
-| [contracts/folder/sample.sol](https://github.com/code-423n4/repo-name/blob/contracts/folder/sample.sol) | 123 | This contract does XYZ | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
+| [src/LendingLedger.sol](https://github.com/code-423n4/2024-01-canto/blob/src/LendingLedger.sol) | 106 | Implements the bookkeeping for the rewards and is used for claiming. Moreover, provides data for third-party contracts that want to use this information for secondary rewards | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
 
 ## Out of scope
 
-*List any files/contracts that are out of scope for this audit.*
+All other contracts.
 
 # Additional Context
 
-- [ ] Describe any novel or unique curve logic or mathematical models implemented in the contracts
-- [ ] Please list specific ERC20 that your protocol is anticipated to interact with. Could be "any" (literally anything, fee on transfer tokens, ERC777 tokens and so forth) or a list of tokens you envision using on launch.
-- [ ] Please list specific ERC721 that your protocol is anticipated to interact with.
-- [ ] Which blockchains will this code be deployed to, and are considered in scope for this audit?
-- [ ] Please list all trusted roles (e.g. operators, slashers, pausers, etc.), the privileges they hold, and any conditions under which privilege escalation is expected/allowable
-- [ ] In the event of a DOS, could you outline a minimum duration after which you would consider a finding to be valid? This question is asked in the context of most systems' capacity to handle DoS attacks gracefully for a certain period.
-- [ ] Is any part of your implementation intended to conform to any EIP's? If yes, please list the contracts in this format: 
-  - `Contract1`: Should comply with `ERC/EIPX`
-  - `Contract2`: Should comply with `ERC/EIPY`
+Since the previous audit, the `LendingLedger` logic was completely rewritten. We now use an approach that is very similar to [MasterChef / Synthetix](https://www.rareskills.io/post/staking-algorithm). The main motivation for doing that was to enable users to claim accrued rewards whenever they want (instead of only after a week / epoch has passed). Moreover, we also introduced the field `secRewardDebt`. The idea of this field is to enable any lending platforms that are integrated with Neofinance Coordinator to send their own rewards based on this value (or rather the difference of this value since the last time secondary rewards were sent) and their own emission schedule for the tokens.
+
+The code will only be deployed to CANTO.
+
+The only trusted role is the governance address. Only this address can set the rewards per block.
 
 ## Attack ideas (Where to look for bugs)
-*List specific areas to address - see [this blog post](https://medium.com/code4rena/the-security-council-elections-within-the-arbitrum-dao-a-comprehensive-guide-aa6d001aae60#9adb) for an example*
+Miscalculations / significant rounding errors
 
 ## Main invariants
-*Describe the project's main invariants (properties that should NEVER EVER be broken).*
+The total rewards that are sent for one block should never be higher than the rewards that were configured for this block.
 
 ## Scoping Details 
-[ ⭐️ SPONSORS: please confirm/edit the information below. ]
 
 ```
 - If you have a public code repo, please share it here:  
@@ -162,4 +152,4 @@ _Note for C4 wardens: Anything included in this `Automated Findings / Publicly K
 
 ## Miscellaneous
 
-Employees of [SPONSOR NAME] and employees' family members are ineligible to participate in this audit.
+Canto contributors that were involved in the creation of Neofinance Coordinator and their family members are ineligible to participate in this audit.
