@@ -10,7 +10,8 @@
 - Submit findings [using the C4 form](https://code4rena.com/contests/2024-01-canto-invitational/submit)
 - [Read our guidelines for more details](https://docs.code4rena.com/roles/wardens)
 - Starts January 25, 2024 20:00 UTC 
-- Ends January 29,2024 20:00 UTC 
+- Ends January 29,2024 20:00 UTC
+- Prize Pool Awards can be paid out in either USDC or CANTO tokens.
 
 ## Automated Findings / Publicly Known Issues
 
