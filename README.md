@@ -1,18 +1,18 @@
 # Canto Invitational audit details
 
-- Total Prize Pool: $16,425 USDC
-  - HM awards: $12,285 in USDC
-  - Analysis awards: $683 in USDC
-  - QA awards: $341 in USDC
-  - Gas awards: $341 in USDC
-  - Judge awards: $2,275 in USDC
-  - Scout awards: $500 in USDC
+- Total Prize Pool: $16,425 
+  - HM awards: $12,285 
+  - Analysis awards: $683 
+  - QA awards: $341 
+  - Gas awards: $341 
+  - Judge awards: $2,275 
+  - Scout awards: $500 
 - Join [C4 Discord](https://discord.gg/code4rena) to register
 - Submit findings [using the C4 form](https://code4rena.com/contests/2024-01-canto-invitational/submit)
 - [Read our guidelines for more details](https://docs.code4rena.com/roles/wardens)
 - Starts January 25, 2024 20:00 UTC
 - Ends January 29,2024 20:00 UTC
-- Prize Pool Awards can be paid out in either USDC or CANTO tokens.
+- ❗️Awarding Note for Wardens, Judges, and Lookouts: If you want to claim your awards in $ worth of CANTO, you must follow the steps outlined in this [thread](https://discord.com/channels/810916927919620096/1199083429174718464/1199722579259310100); otherwise you'll be paid out in USDC.
 
 ## Automated Findings / Publicly Known Issues
 
