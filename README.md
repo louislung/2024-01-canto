@@ -1,15 +1,16 @@
 # Canto Invitational audit details
-- Total Prize Pool: $16,425 USDC 
-  - HM awards: $12,285 in USDC 
-  - Analysis awards: $683 in USDC 
-  - QA awards: $341 in USDC 
-  - Gas awards: $341 in USDC 
-  - Judge awards: $2,275 in USDC 
-  - Scout awards: $500 in USDC 
+
+- Total Prize Pool: $16,425 USDC
+  - HM awards: $12,285 in USDC
+  - Analysis awards: $683 in USDC
+  - QA awards: $341 in USDC
+  - Gas awards: $341 in USDC
+  - Judge awards: $2,275 in USDC
+  - Scout awards: $500 in USDC
 - Join [C4 Discord](https://discord.gg/code4rena) to register
 - Submit findings [using the C4 form](https://code4rena.com/contests/2024-01-canto-invitational/submit)
 - [Read our guidelines for more details](https://docs.code4rena.com/roles/wardens)
-- Starts January 25, 2024 20:00 UTC 
+- Starts January 25, 2024 20:00 UTC
 - Ends January 29,2024 20:00 UTC
 - Prize Pool Awards can be paid out in either USDC or CANTO tokens.
 
@@ -20,21 +21,23 @@ The 4naly3er report can be found [here](https://github.com/code-423n4/2024-01-ca
 _Note for C4 wardens: Anything included in this `Automated Findings / Publicly Known Issues` section is considered a publicly known issue and is ineligible for awards._
 
 Risks deemed acceptable:
-- Everything related to governance / centralization abuse: We assume that governance is non-malicious. 
+
+- Everything related to governance / centralization abuse: We assume that governance is non-malicious.
 
 # Overview
 
 ## Links
 
-- **Previous audits:** https://code4rena.com/audits/2023-08-verwa
-- **Documentation:** https://code4rena.com/audits/2023-08-verwa and below
-
+- **Previous audits:** <https://code4rena.com/audits/2023-08-verwa>
+- **Documentation:** <https://code4rena.com/audits/2023-08-verwa> and below
 
 # Scope
 
+*See [scope.txt](https://github.com/code-423n4/2024-01-canto/blob/main/scope.txt)*
+
 | Contract | SLOC | Purpose | Libraries used |  
 | ----------- | ----------- | ----------- | ----------- |
-| [src/LendingLedger.sol](https://github.com/code-423n4/2024-01-canto/blob/src/LendingLedger.sol) | 106 | Implements the bookkeeping for the rewards and is used for claiming. Moreover, provides data for third-party contracts that want to use this information for secondary rewards | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
+| [src/LendingLedger.sol](https://github.com/code-423n4/2024-01-canto/blob/main/src/LendingLedger.sol) | 106 | Implements the bookkeeping for the rewards and is used for claiming. Moreover, provides data for third-party contracts that want to use this information for secondary rewards | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
 
 ## Out of scope
 
@@ -49,12 +52,14 @@ The code will only be deployed to CANTO.
 The only trusted role is the governance address. Only this address can set the rewards per block.
 
 ## Attack ideas (Where to look for bugs)
+
 Miscalculations / significant rounding errors
 
 ## Main invariants
+
 The total rewards that are sent for one block should never be higher than the rewards that were configured for this block.
 
-## Scoping Details 
+## Scoping Details
 
 ```
 - If you have a public code repo, please share it here:  
@@ -76,9 +81,26 @@ The total rewards that are sent for one block should never be higher than the re
 - Describe any specific areas you would like addressed:
 ```
 
-# Tests
+# Setup and test instructions
 
-```npm install && forge test``````
+```bash
+# Cloning with recurse
+git clone --recurse https://github.com/code-423n4/2024-01-canto.git
+# Going into the contest directory
+cd 2024-01-canto
+# Installing npm dependencies
+npm install
+# Installing forge dependencies in case --recurse was forgotten when cloning
+forge install
+# Compiling
+forge build
+# Testing
+forge test
+# Generating gas report
+forge test --gas-report
+# Running slither (alternatively, see the provided "slither.txt" file)
+slither .
+```
 
 ## Miscellaneous
 

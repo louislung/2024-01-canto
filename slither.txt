@@ -1,0 +1,102 @@
+INFO:Detectors:
+LendingLedger.update_market(address) (src/LendingLedger.sol#56-77) performs a multiplication on the result of a division:
+	- epoch = (i / BLOCK_EPOCH) * BLOCK_EPOCH (src/LendingLedger.sol#64)
+LendingLedger.update_market(address) (src/LendingLedger.sol#56-77) performs a multiplication on the result of a division:
+	- cantoReward = (blockDelta * cantoPerBlock[epoch] * gaugeController.gauge_relative_weight_write(_market,epoch)) / 1e18 (src/LendingLedger.sol#67-69)
+	- market.accCantoPerShare += uint128((cantoReward * 1e18) / marketSupply) (src/LendingLedger.sol#70)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+Reentrancy in LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100):
+	External calls:
+	- update_market(lendingMarket) (src/LendingLedger.sol#84)
+		- cantoReward = (blockDelta * cantoPerBlock[epoch] * gaugeController.gauge_relative_weight_write(_market,epoch)) / 1e18 (src/LendingLedger.sol#67-69)
+	State variables written after the call(s):
+	- lendingMarketTotalBalance[lendingMarket] = uint256(updatedMarketBalance) (src/LendingLedger.sol#99)
+	LendingLedger.lendingMarketTotalBalance (src/LendingLedger.sol#38) can be used in cross function reentrancies:
+	- LendingLedger.lendingMarketTotalBalance (src/LendingLedger.sol#38)
+	- LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100)
+	- LendingLedger.update_market(address) (src/LendingLedger.sol#56-77)
+Reentrancy in LendingLedger.update_market(address) (src/LendingLedger.sol#56-77):
+	External calls:
+	- cantoReward = (blockDelta * cantoPerBlock[epoch] * gaugeController.gauge_relative_weight_write(_market,epoch)) / 1e18 (src/LendingLedger.sol#67-69)
+	State variables written after the call(s):
+	- market.accCantoPerShare += uint128((cantoReward * 1e18) / marketSupply) (src/LendingLedger.sol#70)
+	LendingLedger.marketInfo (src/LendingLedger.sol#33) can be used in cross function reentrancies:
+	- LendingLedger.claim(address) (src/LendingLedger.sol#104-117)
+	- LendingLedger.marketInfo (src/LendingLedger.sol#33)
+	- LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100)
+	- LendingLedger.update_market(address) (src/LendingLedger.sol#56-77)
+	- LendingLedger.whiteListLendingMarket(address,bool) (src/LendingLedger.sol#137-143)
+	- market.secRewardsPerShare += uint128((blockDelta * 1e18) / marketSupply) (src/LendingLedger.sol#71)
+	LendingLedger.marketInfo (src/LendingLedger.sol#33) can be used in cross function reentrancies:
+	- LendingLedger.claim(address) (src/LendingLedger.sol#104-117)
+	- LendingLedger.marketInfo (src/LendingLedger.sol#33)
+	- LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100)
+	- LendingLedger.update_market(address) (src/LendingLedger.sol#56-77)
+	- LendingLedger.whiteListLendingMarket(address,bool) (src/LendingLedger.sol#137-143)
+	- market.lastRewardBlock = uint64(block.number) (src/LendingLedger.sol#75)
+	LendingLedger.marketInfo (src/LendingLedger.sol#33) can be used in cross function reentrancies:
+	- LendingLedger.claim(address) (src/LendingLedger.sol#104-117)
+	- LendingLedger.marketInfo (src/LendingLedger.sol#33)
+	- LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100)
+	- LendingLedger.update_market(address) (src/LendingLedger.sol#56-77)
+	- LendingLedger.whiteListLendingMarket(address,bool) (src/LendingLedger.sol#137-143)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1
+INFO:Detectors:
+LendingLedger.setGovernance(address) (src/LendingLedger.sol#52-54) should emit an event for: 
+	- governance = _governance (src/LendingLedger.sol#53) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control
+INFO:Detectors:
+LendingLedger.constructor(address,address)._governance (src/LendingLedger.sol#45) lacks a zero-check on :
+		- governance = _governance (src/LendingLedger.sol#47)
+LendingLedger.setGovernance(address)._governance (src/LendingLedger.sol#52) lacks a zero-check on :
+		- governance = _governance (src/LendingLedger.sol#53)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+LendingLedger.update_market(address) (src/LendingLedger.sol#56-77) has external calls inside a loop: cantoReward = (blockDelta * cantoPerBlock[epoch] * gaugeController.gauge_relative_weight_write(_market,epoch)) / 1e18 (src/LendingLedger.sol#67-69)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Reentrancy in LendingLedger.claim(address) (src/LendingLedger.sol#104-117):
+	External calls:
+	- update_market(_market) (src/LendingLedger.sol#105)
+		- cantoReward = (blockDelta * cantoPerBlock[epoch] * gaugeController.gauge_relative_weight_write(_market,epoch)) / 1e18 (src/LendingLedger.sol#67-69)
+	State variables written after the call(s):
+	- user.rewardDebt = accumulatedCanto (src/LendingLedger.sol#111)
+Reentrancy in LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100):
+	External calls:
+	- update_market(lendingMarket) (src/LendingLedger.sol#84)
+		- cantoReward = (blockDelta * cantoPerBlock[epoch] * gaugeController.gauge_relative_weight_write(_market,epoch)) / 1e18 (src/LendingLedger.sol#67-69)
+	State variables written after the call(s):
+	- user.amount += uint256(_delta) (src/LendingLedger.sol#89)
+	- user.rewardDebt += int256((uint256(_delta) * market.accCantoPerShare) / 1e18) (src/LendingLedger.sol#90)
+	- user.secRewardDebt += int256((uint256(_delta) * market.secRewardsPerShare) / 1e18) (src/LendingLedger.sol#91)
+	- user.amount -= uint256(- _delta) (src/LendingLedger.sol#93)
+	- user.rewardDebt -= int256((uint256(- _delta) * market.accCantoPerShare) / 1e18) (src/LendingLedger.sol#94)
+	- user.secRewardDebt -= int256((uint256(- _delta) * market.secRewardsPerShare) / 1e18) (src/LendingLedger.sol#95)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Pragma version^0.8.16 (src/LendingLedger.sol#2) allows old versions
+solc-0.8.17 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Low level call in LendingLedger.claim(address) (src/LendingLedger.sol#104-117):
+	- (success) = msg.sender.call{value: uint256(cantoToSend)}() (src/LendingLedger.sol#114)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+Parameter LendingLedger.setGovernance(address)._governance (src/LendingLedger.sol#52) is not in mixedCase
+Function LendingLedger.update_market(address) (src/LendingLedger.sol#56-77) is not in mixedCase
+Parameter LendingLedger.update_market(address)._market (src/LendingLedger.sol#56) is not in mixedCase
+Function LendingLedger.sync_ledger(address,int256) (src/LendingLedger.sol#82-100) is not in mixedCase
+Parameter LendingLedger.sync_ledger(address,int256)._lender (src/LendingLedger.sol#82) is not in mixedCase
+Parameter LendingLedger.sync_ledger(address,int256)._delta (src/LendingLedger.sol#82) is not in mixedCase
+Parameter LendingLedger.claim(address)._market (src/LendingLedger.sol#104) is not in mixedCase
+Parameter LendingLedger.setRewards(uint256,uint256,uint256)._fromEpoch (src/LendingLedger.sol#124) is not in mixedCase
+Parameter LendingLedger.setRewards(uint256,uint256,uint256)._toEpoch (src/LendingLedger.sol#125) is not in mixedCase
+Parameter LendingLedger.setRewards(uint256,uint256,uint256)._amountPerBlock (src/LendingLedger.sol#126) is not in mixedCase
+Parameter LendingLedger.whiteListLendingMarket(address,bool)._market (src/LendingLedger.sol#137) is not in mixedCase
+Parameter LendingLedger.whiteListLendingMarket(address,bool)._isWhiteListed (src/LendingLedger.sol#137) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+LendingLedger.gaugeController (src/LendingLedger.sol#15) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (9 contracts with 93 detectors), 26 result(s) found
