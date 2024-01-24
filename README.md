@@ -98,6 +98,10 @@ forge build
 forge test
 # Generating gas report
 forge test --gas-report
+# Running coverage with minimum-IR (Stack too deep otherwise)
+forge coverage --ir-minimum
+# Generating lcov report file (keep in mind that the result will be a bit off when displaying the result such as with the Coverage Gutters extension on VSCode due to --ir-minimum).
+forge coverage --ir-minimum --report lcov
 # Running slither (alternatively, see the provided "slither.txt" file)
 slither .
 ```
