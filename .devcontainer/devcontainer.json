@@ -1,0 +1,21 @@
+{
+  "name": "Basic Node.js",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "npm install && forge install && forge build",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "JuanBlanco.solidity"
+      ],
+      "settings": {
+        "extensions.verifySignature": false
+      }
+    }
+  },
+  "remoteUser": "root",
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}_node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ]
+}
