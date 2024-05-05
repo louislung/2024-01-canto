@@ -1,3 +1,23 @@
+# My findings
+
+1. `whiteListLendingMarket` may set `lastRewardBlock` incorrectly if it is whitelisted, then blacklisted, then whitelisted again, e.g.
+```
+address lendingMarket = vm.addr(5201314);
+
+// this set lastRewardBlock to current block
+vm.prank(goverance);
+ledger.whiteListLendingMarket(lendingMarket, true);
+
+vm.warp(block.timestamp + 7 days);
+ledger.whiteListLendingMarket(lendingMarket, false);
+
+// this set lastRewardBlock to current block, which is incorrect?
+vm.warp(block.timestamp + 7 days);
+ledger.whiteListLendingMarket(lendingMarket, true);
+```
+2.
+
+
 # Canto Invitational audit details
 
 - Total Prize Pool: $16,425 
