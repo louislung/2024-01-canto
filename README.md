@@ -14,8 +14,15 @@ ledger.whiteListLendingMarket(lendingMarket, false);
 // this set lastRewardBlock to current block, which is incorrect?
 vm.warp(block.timestamp + 7 days);
 ledger.whiteListLendingMarket(lendingMarket, true);
+
+Looking back, it makes sense to not generate any rewards for market being blacklisted
+
 ```
-2.
+
+# Learnings
+1. [H-01] When call external contract, is the parameter correct? similar learnings about calling external contract in 2023-02-kuma 
+2. [H-02] Verify simple business logic
+3. [M-01] [M-02] math precision issue
 
 
 # Canto Invitational audit details
